@@ -541,7 +541,7 @@ bool Game::Update() {
 
     return true;
 }
-
+bool showHelpWindow = false;
 // Render
 void Game::Render() {
     // Begin Game Frame
@@ -602,4 +602,55 @@ void Game::Render() {
 		ImGui::PopFont();
 
     } ImGui::End();
+
+    // Help
+    ImGui::SetNextWindowPos(ImVec2(35, 685));
+    if (ImGui::Begin(" ", nullptr,
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoScrollbar |
+        ImGuiWindowFlags_NoSavedSettings |
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoTitleBar)) {
+    }
+    if (ImGui::Button("?"))
+    {
+        showHelpWindow = true;
+    }
+    ImGui::End();
+
+    if (showHelpWindow)
+    {
+        ImGui::SetNextWindowPos(ImVec2(100, 100));
+        ImGui::SetNextWindowSize(ImVec2(400, 250));
+        if (ImGui::Begin("Help Window", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoScrollbar |
+            ImGuiWindowFlags_NoSavedSettings |
+            ImGuiWindowFlags_NoCollapse ))
+        {
+            ImGui::SeparatorText("How to play:");
+            ImGui::NewLine();
+            ImGui::Separator();
+            ImGui::Text("Rotate and place falling tetrominoes to complete\nrows, which then disappear.\n Prevent the screen from filling up!");
+            ImGui::Separator();
+            ImGui::NewLine();
+            ImGui::Separator();
+            ImGui::Text("Controls:");
+            ImGui::BulletText("Arrow Keys to Move");
+            ImGui::BulletText("Z to rotate");
+            ImGui::BulletText("X to place");
+            ImGui::Separator();
+            ImGui::NewLine();
+            if (ImGui::Button("Close"))
+            {
+                showHelpWindow = false;
+            }
+        }
+
+        ImGui::End();
+    }
 }
